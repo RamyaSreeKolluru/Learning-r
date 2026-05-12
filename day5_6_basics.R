@@ -68,12 +68,39 @@ mpg %>%
 
 # what is the average highway mpg for each manufacturer, and how many cars do 
 #they have in the dataset?
-mpg%>%
+
+mpg %>%
   group_by(manufacturer) %>%
   summarize(
     avg_hwy = mean(hwy),
     count = n()
   ) %>%
-  arrange(desc(avg_hwy))
+  arrange(desc(avg_hwy)) %>%
+ggplot(aes(x=reorder(manufacturer, avg_hwy) , y=avg_hwy)) +
+  geom_col(fill="steelblue") +
+  coord_flip() +
+  labs(
+    title = "Average Highway MPG by manufacturer",
+    x= "Manufacturer",
+    y= "Average Highway MPG"
+  )
 
-getwd()
+mpg %>%
+  ggplot(aes(x=displ, y=hwy, color=class)) +
+  geom_point(fill="black")
+labs(
+  title = "Correlation between engine size and highway mpg",
+  x= "Engine Size",
+  y= "Highway MPG",
+  colour= "Car Class"
+)
+
+# Histogram: Distribution of highway mpg
+mpg %>%
+  ggplot(aes(x=hwy))+
+  geom_histogram(binwidth=2, fill="pink", colour="white")+
+  labs(
+    title= "Distribution of Highway MPG",
+    x="Highway MPG",
+    y="Number of Cars"
+  )
